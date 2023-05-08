@@ -41,7 +41,7 @@ const FormTextField: React.FC<IProps> = (props) => {
         ),
         endAdornment: (
           <InputAdornment sx={{ cursor: "pointer" }} position={"end"}>
-            <IconButton> {iconEnd}</IconButton>
+            {iconEnd}
           </InputAdornment>
         ),
       }}

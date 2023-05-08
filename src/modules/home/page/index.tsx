@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import SkeletonItem from "../../../ui/sceleton";
 import {
   HomeContainer,
@@ -10,9 +11,10 @@ import {
 } from "./style";
 
 import img from "../../../public/img/Rectangle.png";
-import NotFound from "../../../pages/404/404";
-import { useNavigate } from "react-router-dom";
+
 import { RootState, useAppSelector } from "../../../hooks/redux";
+import NotFound from "../../404";
+import ServerError from "../../500";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -21,8 +23,16 @@ const HomePage = () => {
   if (users.status === "loading") {
     return <SkeletonItem />;
   }
-  if (users.status === "failed") {
+
+  if (!users.items.items) {
     return <NotFound />;
+  }
+  // if (users.status === "404") {
+  //   return <NotFound />;
+  // }
+
+  if (users.status === "failed") {
+    return <ServerError />;
   }
 
   const handleDetailsUser = (id: string) => {
@@ -31,18 +41,19 @@ const HomePage = () => {
 
   return (
     <HomeContainer>
-      {users?.items.items.map((user) => (
-        <User key={user.id} onClick={() => handleDetailsUser(user.id)}>
-          <UserAvatar>
-            <UserAvatarImg src={img} />
-          </UserAvatar>
-          <Linear>
-            <UserName>{`${user.firstName} ${user.lastName}`}</UserName>
-            <UserWorkPosition>{`Deportament: ${user.department}`}</UserWorkPosition>
-            <UserWorkPosition>{`Work position: ${user.position}`}</UserWorkPosition>
-          </Linear>
-        </User>
-      ))}
+      {users.items &&
+        users?.items?.items?.map((user) => (
+          <User key={user?.id} onClick={() => handleDetailsUser(user?.id)}>
+            <UserAvatar>
+              <UserAvatarImg src={img} />
+            </UserAvatar>
+            <Linear>
+              <UserName>{`${user?.firstName} ${user?.lastName}`}</UserName>
+              <UserWorkPosition>{`Deportament: ${user?.department}`}</UserWorkPosition>
+              <UserWorkPosition>{`Work position: ${user?.position}`}</UserWorkPosition>
+            </Linear>
+          </User>
+        ))}
     </HomeContainer>
   );
 };

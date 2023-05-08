@@ -2,7 +2,7 @@ export interface IInitialState {
   items: { items: IUsers[] };
   search: string;
   isActiveFilter: string;
-  status: "loading" | "succeeded" | "failed";
+  status: "loading" | "succeeded" | "404" | "failed";
 }
 
 export interface IUsers {
@@ -15,4 +15,10 @@ export interface IUsers {
   phone: string;
   position: string;
   userTag: string;
+}
+
+export interface AxiosError {
+  message: string;
+  code: string;
+  status: number;
 }

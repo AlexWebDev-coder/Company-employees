@@ -12,7 +12,6 @@ import {
 } from "../../../hooks/redux";
 // mui
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 // style
 import {
   Category,
@@ -26,19 +25,23 @@ import {
   changeFilter,
   getSearchUser,
 } from "../../../store/features/usersSlice";
-// import useDebounce from "../../../hooks/useDebounce";
+import useDebounce from "../../../hooks/useDebounce";
+import SortingUsers from "../../../ui/modal-dialog/sorting-users";
 
 const DefaultLayoutHeader: FC = () => {
   const dispatch = useAppDispatch();
 
   const searchValue = useAppSelector((state: RootState) => state.users.search);
+
+  const debounceValue = useDebounce(searchValue, 500);
+
   const isActiveFilter = useAppSelector(
     (state: RootState) => state.users.isActiveFilter
   );
 
   useEffect(() => {
-    dispatch(fetchUsersAsync({ department: searchValue || isActiveFilter }));
-  }, [isActiveFilter, searchValue]);
+    dispatch(fetchUsersAsync({ department: debounceValue || isActiveFilter }));
+  }, [isActiveFilter, debounceValue]);
 
   const handleActiveFilter = (active: string) => {
     dispatch(changeFilter(active));
@@ -47,7 +50,6 @@ const DefaultLayoutHeader: FC = () => {
   const handleInputChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    // const newValue = useDebounce(event.target.value, 300);
     dispatch(getSearchUser(event.target.value));
   };
 
@@ -63,7 +65,7 @@ const DefaultLayoutHeader: FC = () => {
             onChange={(e) => handleInputChange(e)}
             variant="outlined"
             iconStart={<SearchRoundedIcon />}
-            iconEnd={<FilterListRoundedIcon />}
+            iconEnd={<SortingUsers />}
           />
         </SearchInput>
         <Category>

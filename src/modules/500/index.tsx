@@ -1,10 +1,10 @@
 import { Container, Image, ResetRequest, Subtitle, Title } from "./styles";
-import NotFoundImg from "../../public/img/404.png";
+import ServerError500Img from "../../public/img/404.png";
 
-const NotFound = () => {
+const ServerError500 = () => {
   return (
     <Container>
-      <Image src={NotFoundImg} />
+      <Image src={ServerError500Img} />
       <Title>Какой-то сверхразум все сломал</Title>
       <Subtitle>Постараемся быстро починить</Subtitle>
       <ResetRequest>поробовать снова</ResetRequest>
@@ -12,4 +12,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default ServerError500;
