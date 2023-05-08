@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 // import DefaultlayoutFooter from "../footer";
-import DefaultlayoutHeader from "../header";
+import DefaultLayoutHeader from "../header";
 
 interface IProps {
   children: React.ReactNode;
@@ -10,9 +10,8 @@ interface IProps {
 const DefaultLayoutContainer: FC<IProps> = ({ children }) => {
   return (
     <>
-      <DefaultlayoutHeader />
+      <DefaultLayoutHeader />
       {children}
-      {/* <DefaultlayoutFooter /> */}
     </>
   );
 };

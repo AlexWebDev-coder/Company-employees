@@ -1,13 +1,11 @@
 import axios from "axios";
+import { API_URL } from "../lib/constants";
 
 const api = axios.create({
-  baseURL: "",
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
-    // "Access-Control-Allow-Origin": "*",
   },
 });
-
-api.defaults.withCredentials = true;
 
 export default api;

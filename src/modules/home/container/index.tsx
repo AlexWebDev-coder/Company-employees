@@ -1,11 +1,11 @@
-import { useNewsQuery } from "../../../hooks/useQuery/news";
+import HomePage from "../page";
 
 const HomeContainer = () => {
-  // const { data } = useNewsQuery();
-
-  // console.log(data);
-
-  return <div></div>;
+  return (
+    <div>
+      <HomePage />
+    </div>
+  );
 };
 
 export default HomeContainer;
