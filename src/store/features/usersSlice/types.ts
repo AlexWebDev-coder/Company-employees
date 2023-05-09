@@ -2,6 +2,7 @@ export interface IInitialState {
   items: { items: IUsers[] };
   search: string;
   isActiveFilter: string;
+  sortingUsers: string;
   status: "loading" | "succeeded" | "404" | "failed";
 }
 

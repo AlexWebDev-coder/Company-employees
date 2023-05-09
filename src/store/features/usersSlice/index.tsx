@@ -6,6 +6,7 @@ const initialState: IInitialState = {
   items: { items: [] },
   search: "",
   isActiveFilter: "all",
+  sortingUsers: "",
   status: "loading",
 };
 
@@ -18,6 +19,15 @@ const usersSlice = createSlice({
     },
     changeFilter: (state, action: PayloadAction<string>) => {
       state.isActiveFilter = action.payload;
+    },
+    setSortingUsers: (state, action: PayloadAction<string>) => {
+      state.sortingUsers = action.payload;
+
+      if (state.sortingUsers === "alphabetically") {
+        state.items.items.sort((a, b) =>
+          a.firstName.localeCompare(b.firstName)
+        );
+      }
     },
   },
 
@@ -36,5 +46,6 @@ const usersSlice = createSlice({
   },
 });
 
-export const { getSearchUser, changeFilter } = usersSlice.actions;
+export const { getSearchUser, changeFilter, setSortingUsers } =
+  usersSlice.actions;
 export default usersSlice.reducer;
