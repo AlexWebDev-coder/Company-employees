@@ -2,6 +2,10 @@ import { InputBase } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import { IPropsBtn } from "./types";
 
+interface IHeaderProps {
+  offline: boolean;
+}
+
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -55,9 +59,17 @@ export const Container = styled("div")`
   width: 100%;
 `;
 
-export const Header = styled("header")`
-  border-bottom: 1px solid #c3c3c6;
-  padding: 16px 24px 7.67px;
+export const Header = styled("header")((props: IHeaderProps) => ({
+  borderBottom: "1px solid #c3c3c6",
+  padding: "16px 24px 7.67px",
+  backgroundColor: !props.offline ? "#f44336" : "",
+}));
+
+export const HeaderTextIsOffline = styled("p")`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
 `;
 
 export const SearchInput = styled("div")`

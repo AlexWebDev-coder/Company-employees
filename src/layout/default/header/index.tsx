@@ -1,4 +1,4 @@
-import { FC, useEffect, ChangeEvent } from "react";
+import { FC, useEffect, ChangeEvent, useState } from "react";
 // components
 import FormTextField from "../../../ui/form/textfield";
 // constants
@@ -18,6 +18,7 @@ import {
   CategoryBtn,
   Container,
   Header,
+  HeaderTextIsOffline,
   SearchInput,
   Title,
 } from "./style";
@@ -27,8 +28,11 @@ import {
 } from "../../../store/features/usersSlice";
 import useDebounce from "../../../hooks/useDebounce";
 import SortingUsers from "../../../ui/modal-dialog/sorting-users";
+import { IsOnline } from "../../../hooks/online";
 
 const DefaultLayoutHeader: FC = () => {
+  const isOnline = IsOnline();
+
   const dispatch = useAppDispatch();
 
   const searchValue = useAppSelector((state: RootState) => state.users.search);
@@ -55,31 +59,40 @@ const DefaultLayoutHeader: FC = () => {
 
   return (
     <Container>
-      <Header>
+      <Header offline={isOnline}>
         <Title>Поиск</Title>
-        <SearchInput>
-          <FormTextField
-            value={searchValue}
-            fullWidth
-            placeholder="Введите имя, тег, почту..."
-            onChange={(e) => handleInputChange(e)}
-            variant="outlined"
-            iconStart={<SearchRoundedIcon />}
-            iconEnd={<SortingUsers />}
-          />
-        </SearchInput>
-        <Category>
-          {filterItems.map((item) => (
-            <CategoryBtn
-              active={isActiveFilter}
-              current={item.department}
-              key={item.id}
-              onClick={() => handleActiveFilter(item.department)}
-            >
-              {item.title}
-            </CategoryBtn>
-          ))}
-        </Category>
+        {!isOnline && (
+          <HeaderTextIsOffline>
+            Не могу обновить данные. Проверь соединение с интернетом.
+          </HeaderTextIsOffline>
+        )}
+        {isOnline && (
+          <>
+            <SearchInput>
+              <FormTextField
+                value={searchValue}
+                fullWidth
+                placeholder="Введите имя, тег, почту..."
+                onChange={(e) => handleInputChange(e)}
+                variant="outlined"
+                iconStart={<SearchRoundedIcon />}
+                iconEnd={<SortingUsers />}
+              />
+            </SearchInput>
+            <Category>
+              {filterItems.map((item) => (
+                <CategoryBtn
+                  active={isActiveFilter}
+                  current={item.department}
+                  key={item.id}
+                  onClick={() => handleActiveFilter(item.department)}
+                >
+                  {item.title}
+                </CategoryBtn>
+              ))}
+            </Category>
+          </>
+        )}
       </Header>
     </Container>
   );
